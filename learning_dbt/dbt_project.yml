@@ -26,7 +26,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-
+# The table staging.dbt_audit was created at first on postgres (PGAdmin4)
+on-run-start: " {{ insert_logic('run_start') }}"
+on-run-end: "{{ insert_logic('run_end') }}"
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -34,6 +36,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
+  +pre-hook: "{{ insert_logic('model_end') }}"
+  +post-hook: "{{ insert_logic('model_start') }}"
   learning_dbt:
     # Config indicated by + and applies to all files under models/staging/
     staging:
