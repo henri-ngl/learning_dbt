@@ -6,6 +6,9 @@ name: 'learning_dbt'
 version: '1.0.0'
 config-version: 2
 
+vars:
+  best_french_league: French Ligue 1
+
 # This setting configures which "profile" dbt uses for this project.
 profile: 'learning_dbt'
 
