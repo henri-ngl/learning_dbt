@@ -3,7 +3,7 @@ version: 2
 
 models:
   - name: example__my_first_dbt_model
-    description: "A starter dbt model my_first_dbt_model"
+    description: '{{ doc("table_events") }}'
     columns:
       - name: id
         description: "The primary key for this table"
@@ -30,13 +30,3 @@ models:
         description: "Code of all football league"
         tests:
           - is_french_league
-
-
-sources:
-  - name: backoffice_db
-    description: 'All data in our backoffice.'
-    database: backoffice_db
-    schema: base_dbt
-    tables:
-      - name: league
-        description: 'All Football leagues and their code'
