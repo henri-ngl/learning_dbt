@@ -6,3 +6,20 @@ sources:
     tables:
       - name: league
         description: '{{ doc("sources_league_table_description") }}'
+      - name: my_fav_source
+
+        freshness:
+          warn_after:
+            count: 3
+            period: minute
+          error_after:
+            count: 8
+            period: minute
+          filter: DATE_PART('minute', CURRENT_TIMESTAMP - created_at) < 8
+        loaded_at_field: created_at
+
+        description: "My brothers and sisters first name"
+        columns:
+          - name: id
+          - name: name
+          - name: created_at
