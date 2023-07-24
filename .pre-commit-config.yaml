@@ -1,0 +1,45 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_language_version:
+  python: python3.8
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-builtin-literals
+    -   id: check-case-conflict
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-toml
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+        exclude: \.md$
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+-   repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+    -   id: black
+        exclude: ^(standalone\-jobs|src/silvr/proto_messages|tests/operators/proto_messages_test)/
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+-   repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+    -   id: flake8
+        additional_dependencies:
+        -   flake8-bugbear==22.1.11
+        -   flake8-eradicate==1.2.0
+-   repo: https://github.com/sqlfluff/sqlfluff
+    rev: 0.13.2
+    hooks:
+    -   id: sqlfluff-lint
+    -   id: sqlfluff-fix

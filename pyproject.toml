@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "dbtlearn"
+version = "0.1.0"
+description = "This project is the project that i use to learn dbt"
+authors = ["Henri Nguemaleu"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+google-cloud-bigquery = "^3.11.4"
+dbt-bigquery = "^1.5.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

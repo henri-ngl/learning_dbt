@@ -1,0 +1,19 @@
+{
+  'bucket': 'test_gcs_to_bq_henri',
+  'contentType': 'application/octet-stream',
+  'crc32c': 'SZBb8g==',
+  'etag': 'CKHLubKkpYADEAE=',
+  'generation': '1690130940061089',
+  'id': 'test_gcs_to_bq_henri/xaa3.log/1690130940061089',
+  'kind': 'storage#object',
+  'md5Hash': 'NjctDtjwZnTG8PJfqkTrVw==',
+  'mediaLink': 'https://storage.googleapis.com/download/storage/v1/b/test_gcs_to_bq_henri/o/xaa3.log?generation=1690130940061089&alt=media',
+  'metageneration': '1',
+  'name': 'xaa3.log',
+  'selfLink': 'https://www.googleapis.com/storage/v1/b/test_gcs_to_bq_henri/o/xaa3.log',
+  'size': '3501322',
+  'storageClass': 'STANDARD',
+  'timeCreated': '2023-07-23T16:49:00.069Z',
+  'timeStorageClassUpdated': '2023-07-23T16:49:00.069Z',
+  'updated': '2023-07-23T16:49:00.069Z'
+}
