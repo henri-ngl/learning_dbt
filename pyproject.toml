@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.9"
 google-cloud-bigquery = "^3.11.4"
 dbt-bigquery = "^1.5.3"
+pre-commit = "^3.3.3"
 
 
 [build-system]
