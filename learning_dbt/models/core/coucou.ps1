@@ -1,5 +1,5 @@
-{{#if isAdmin}}
-You have administrator access
-{{else}}
-You have user access
-{{/if}}
+  Hello, ${name}!
+
+  ${role === "admin" ? "You have administrator access." : "You have user access."}
+
+  The current year is ${year}.
