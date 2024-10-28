@@ -9,8 +9,6 @@
 
 .EXAMPLE
     .\beamy_wbe.ps1
-
-    Performs the action specified by the $Action variable in the script.
 #>
 
 #region Variables
@@ -19,11 +17,6 @@ $ErrorActionPreference = 'Stop'
 $Remove3rdPartyFirefoxRegistry = $false # Set to $false if you want to keep the 3rdparty Extensions registry entries.
 $ForceUpdateUserPolicy = $false # Set to $true to force update user policy values for all users
 
-
-# Possible values for $Action:
-# $Action = "InstallAndConfigure"  # Installs and configures the extension
-# $Action = "Configure"            # Only configures the extension (assumes it's already installed)
-# $Action = "Uninstall"            # Uninstalls the extension
 
 {{#ifIn "Chrome" browsers}}
 $BeamyChromeExtension = @{
@@ -285,15 +278,6 @@ function Configure-Extension {
 
     New-ItemProperty -Path $PolicyPath -PropertyType "STRING" -Name "clientId" -Value $BeamyGlobalVariables.ClientID -Force | Out-Null
     New-ItemProperty -Path $PolicyPath -PropertyType "STRING" -Name "apiKey" -Value $BeamyGlobalVariables.ApiKey -Force | Out-Null
-    $ClientNames = '["{0}"]' -f ($BeamyGlobalVariables.ClientNames -join '","')
-    New-ItemProperty -Path $PolicyPath -PropertyType $ArrayPropertyType -Name "clientNames" -Value $ClientNames -Force | Out-Null
-    $EmailDomains = '["{0}"]' -f ($BeamyGlobalVariables.EmailDomains -join '","')
-    New-ItemProperty -Path $PolicyPath -PropertyType $ArrayPropertyType -Name "emailDomains" -Value $EmailDomains -Force | Out-Null
-    New-ItemProperty -Path $PolicyPath -PropertyType "STRING" -Name "customLandingPageUrl" -Value $BeamyGlobalVariables.CustomLandingPageUrl -Force | Out-Null
-    New-ItemProperty -Path $PolicyPath -PropertyType "DWord" -Name "isExtensionEnabled" -Value $BeamyGlobalVariables.IsExtensionEnabled -Force | Out-Null
-    New-ItemProperty -Path $PolicyPath -PropertyType "DWord" -Name "isSelfLearningModeEnabled" -Value $BeamyGlobalVariables.IsSelfLearningModeEnabled -Force | Out-Null
-    New-ItemProperty -Path $PolicyPath -PropertyType "DWord" -Name "isDebugModeEnabled" -Value $BeamyGlobalVariables.IsDebugModeEnabled -Force | Out-Null
-    New-ItemProperty -Path $PolicyPath -PropertyType "DWord" -Name "isIncognitoModeEnabled" -Value $BeamyGlobalVariables.IsIncognitoModeEnabled -Force | Out-Null
     New-ItemProperty -Path $PolicyPath -PropertyType "STRING" -Name "deviceLoggedInUserNameExpectedFormat" -Value $BeamyGlobalVariables.DeviceLoggedInUserNameExpectedFormat -Force | Out-Null
     Write-Host "Configured policy values in $PolicyPath"
 }
@@ -552,6 +536,7 @@ switch ({{action}}) {
         Write-Host "Beamy's web browser extension has been installed and configured."
     }
     {{/ifEqual}}
+
     {{#ifEqual action "Configure"}}
     "Configure" {
         Configure-Extensions-GlobalContext
@@ -559,6 +544,7 @@ switch ({{action}}) {
         Write-Host "Beamy's web browser extension has been configured."
     }
     {{/ifEqual}}
+
     {{#ifEqual action "Uninstall"}}
     "Uninstall" {
         Uninstall-BeamyChrome
