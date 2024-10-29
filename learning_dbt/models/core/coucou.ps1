@@ -547,9 +547,15 @@ switch ({{action}}) {
 
     {{#ifEqual action "Uninstall"}}
     "Uninstall" {
+        {{#ifIn "Chrome" browsers}}
         Uninstall-BeamyChrome
+        {{/ifIn}}
+        {{#ifIn "Chrome" browsers}}
         Uninstall-BeamyEdge
+        {{/ifIn}}
+        {{#ifIn "Chrome" browsers}}
         Uninstall-BeamyFirefox
+        {{/ifIn}}
         Remove-UserPolicies
         Write-Host "Beamy's web browser extension has been uninstalled from all supported browsers."
     }
