@@ -1,1 +1,114 @@
-Hello, world!
+#Requires -Version 5.1 # TODO: Update the version number
+<#
+.SYNOPSIS
+    Installation, configuration, and uninstallation of Beamy's web browser extension.
+
+.DESCRIPTION
+    This script can install, configure, or uninstall Beamy's web browser extension for supported browsers (Chrome, Edge, and Firefox).
+    It uses registry keys and configuration files to manage the extension across all users on the machine.
+
+.EXAMPLE
+    .\beamy_wbe.ps1
+#>
+
+#region Variables
+
+$ErrorActionPreference = 'Stop'
+$ForceUpdateUserPolicy = $false # Set to $true to force update user policy values for all users
+
+
+
+$BeamyEdgeExtension = @{
+    ExtensionId = 'nealoinbnmnpfcnodfgnegjiogllmlao'
+    ExtensionUpdateUrl = 'https://edge.microsoft.com/extensionwebstorebase/v1/crx'
+    ExtensionInstallForcelistPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallForcelist'
+    PolicyPathBase = 'HKLM:\SOFTWARE\Policies\Microsoft\Edge\3rdparty\Extensions\'
+}
+$BeamyEdgeExtension.PolicyPath = Join-Path -Path $BeamyEdgeExtension.PolicyPathBase -ChildPath "$($BeamyEdgeExtension.ExtensionId)/policy"
+
+
+$BeamyGlobalVariables = @{
+    ClientID = 'ffea0ee8-f02a-4ae7-ad5b-13b027330a6a'
+    ApiKey = 'qwerty12345'
+    DeviceLoggedInUserNameExpectedFormat = 'lowercase'
+}
+
+#endregion
+
+
+
+#region Uninstallation
+
+function Remove-RegistryKey {
+    param (
+        [string]$Path
+    )
+    if (Test-Path $Path) {
+        Remove-Item -Path $Path -Recurse -Force
+        Write-Host "Removed registry key: $Path"
+    }
+}
+
+function Remove-RegistryValue {
+    param (
+        [string]$Path,
+        [string]$Name
+    )
+    if (Test-Path $Path) {
+        Remove-ItemProperty -Path $Path -Name $Name -Force -ErrorAction SilentlyContinue
+        Write-Host "Removed registry value: $Path\$Name"
+    }
+}
+
+
+function Uninstall-BeamyEdge {
+    Write-Host "Uninstalling Beamy's Edge extension..."
+    
+    if (Test-Path $BeamyEdgeExtension.ExtensionInstallForcelistPath) {
+        $properties = Get-ItemProperty -Path $BeamyEdgeExtension.ExtensionInstallForcelistPath
+        $propertiesToRemove = $properties.PSObject.Properties | Where-Object { $_.Value -like "*$($BeamyEdgeExtension.ExtensionId)*" }
+        foreach ($prop in $propertiesToRemove) {
+            Remove-RegistryValue -Path $BeamyEdgeExtension.ExtensionInstallForcelistPath -Name $prop.Name
+        }
+    }
+
+    Remove-RegistryKey -Path $BeamyEdgeExtension.PolicyPath
+
+    Write-Host "Beamy's Edge extension has been uninstalled."
+}
+
+function Remove-UserPolicies {
+    Write-Host "Removing Beamy's web browser extension policies for all users..."
+
+    $UserProfiles = Get-WmiObject -Class Win32_UserProfile | Where-Object { $_.Special -eq $false }
+
+    $HKUsersRegistryName = "HKU"
+    New-PSDrive -PSProvider Registry -Name $HKUsersRegistryName -Root HKEY_USERS | Out-Null
+    foreach ($UserProfile in $UserProfiles) {
+        $Sid = $UserProfile.SID
+        if (Test-Path -Path "${HKUsersRegistryName}:\${Sid}") {
+            Remove-RegistryKey -Path $($BeamyEdgeExtension.PolicyPath -replace "HKLM:\\", "${HKUsersRegistryName}:\${Sid}\")
+        }
+    }
+    Remove-PSDrive -Name $HKUsersRegistryName
+
+    Write-Host "Removed Beamy's web browser extension policies for all users."
+}
+
+#endregion
+#region Main
+
+switch ('Uninstall') {
+
+
+    "Uninstall" {
+        Uninstall-BeamyEdge
+        Remove-UserPolicies
+        Write-Host "Beamy's web browser extension has been uninstalled from all supported browsers."
+    }
+    default {
+        Write-Host "Invalid action specified. Please set the `$Action variable to 'InstallAndConfigure', 'Configure', or 'Uninstall'."
+    }
+}
+
+#endregion
