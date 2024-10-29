@@ -550,10 +550,10 @@ switch ({{action}}) {
         {{#ifIn "Chrome" browsers}}
         Uninstall-BeamyChrome
         {{/ifIn}}
-        {{#ifIn "Chrome" browsers}}
+        {{#ifIn "Edge" browsers}}
         Uninstall-BeamyEdge
         {{/ifIn}}
-        {{#ifIn "Chrome" browsers}}
+        {{#ifIn "Firefox" browsers}}
         Uninstall-BeamyFirefox
         {{/ifIn}}
         Remove-UserPolicies
