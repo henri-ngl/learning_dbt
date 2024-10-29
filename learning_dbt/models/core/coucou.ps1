@@ -55,9 +55,9 @@ $BeamyFirefoxExtension.PolicyPath = Join-Path -Path $BeamyFirefoxExtension.Polic
 {{/ifIn}}
 
 $BeamyGlobalVariables = @{
-    ClientID = {{clientID}}
-    ApiKey = {{apiKey}}
-    DeviceLoggedInUserNameExpectedFormat = {{deviceLoggedInUserNameExpectedFormat}}
+    ClientID = '{{clientID}}'
+    ApiKey = '{{apiKey}}'
+    DeviceLoggedInUserNameExpectedFormat = '{{deviceLoggedInUserNameExpectedFormat}}'
 }
 
 #endregion
@@ -529,7 +529,7 @@ function Remove-UserPolicies {
 {{/ifEqual}}
 #region Main
 
-switch ({{action}}) {
+switch ('{{action}}') {
     {{#ifEqual action "InstallAndConfigure"}}
     "InstallAndConfigure" {
         Install-Extensions
