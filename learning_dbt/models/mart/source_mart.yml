@@ -1,8 +1,0 @@
-sources:
-  - name: backoffice_db
-    description: '{{ doc("source_backoffice_description") }}'
-    database: backoffice_db
-    schema: base_dbt
-    tables:
-      - name: league_mart
-        description: '{{ doc("sources_league_table_description") }}'
