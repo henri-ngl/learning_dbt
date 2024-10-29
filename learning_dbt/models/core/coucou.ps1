@@ -14,7 +14,9 @@
 #region Variables
 
 $ErrorActionPreference = 'Stop'
+{{#ifIn "Firefox" browsers}}
 $Remove3rdPartyFirefoxRegistry = $false # Set to $false if you want to keep the 3rdparty Extensions registry entries.
+{{/ifIn}}
 $ForceUpdateUserPolicy = $false # Set to $true to force update user policy values for all users
 
 
